@@ -1,9 +1,9 @@
 name: Black-Box Test JPTE UNM
 
 on:
-  workflow_dispatch:   # bisa dijalankan manual
+  workflow_dispatch:
   schedule:
-    - cron: '0 2 * * 1' # otomatis tiap Senin jam 02:00 UTC
+    - cron: '0 2 * * 1'
 
 jobs:
   zap-scan:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.7.0
@@ -23,4 +23,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zap-report
-          path: report.html
+          path: zap_report.html

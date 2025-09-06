@@ -1,0 +1,28 @@
+name: Black-Box Test JPTE UNM
+
+on:
+  workflow_dispatch:   # supaya bisa dijalankan manual
+  schedule:
+    - cron: '0 2 * * 1' # jalan otomatis tiap Senin jam 02:00 UTC
+
+jobs:
+  zap-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Jalankan OWASP ZAP Baseline Scan ke target eksternal
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          target: "https://jpteunm.com/"
+          cmd_options: "-m 5"   # batasi waktu scan jadi 5 menit
+
+      # Simpan laporan hasil scan
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: zap-report
+          path: report.html
